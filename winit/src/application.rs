@@ -116,12 +116,12 @@ where
 {
     use futures::task;
     use futures::Future;
-    use winit::event_loop::EventLoopBuilder;
+    use winit::event_loop::EventLoop;
 
     let mut debug = Debug::new();
     debug.startup_started();
 
-    let event_loop = EventLoopBuilder::with_user_event().build();
+    let event_loop = EventLoop::with_user_event();
     let proxy = event_loop.create_proxy();
 
     let runtime = {
@@ -191,17 +191,20 @@ where
         }
 
         let event = match event {
-            winit::event::Event::WindowEvent {
-                event:
-                    winit::event::WindowEvent::ScaleFactorChanged {
-                        new_inner_size,
-                        ..
-                    },
-                window_id,
-            } => Some(winit::event::Event::WindowEvent {
-                event: winit::event::WindowEvent::Resized(*new_inner_size),
-                window_id,
-            }),
+            // winit::event::Event::WindowEvent {
+            //     event:
+            //         winit::event::WindowEvent::ScaleFactorChanged {
+            //             new_inner_size,
+            //             ..
+            //         },
+            //     window_id,
+            //     ..
+            // } => Some(
+            //     winit::event::Event::WindowEvent {
+            //         window_id,
+            //         event: winit::event::WindowEvent::Resized(*new_inner_size)
+            //     }
+            // ),
             _ => event.to_static(),
         };
 
@@ -368,17 +371,17 @@ async fn run_instance<A, E, C>(
 
                 window.request_redraw();
             }
-            event::Event::PlatformSpecific(event::PlatformSpecific::MacOS(
-                event::MacOS::ReceivedUrl(url),
-            )) => {
-                use iced_native::event;
+            // event::Event::PlatformSpecific(event::PlatformSpecific::MacOS(
+            //     event::MacOS::ReceivedUrl(url),
+            // )) => {
+            //     use iced_native::event;
 
-                events.push(iced_native::Event::PlatformSpecific(
-                    event::PlatformSpecific::MacOS(event::MacOS::ReceivedUrl(
-                        url,
-                    )),
-                ));
-            }
+            //     events.push(iced_native::Event::PlatformSpecific(
+            //         event::PlatformSpecific::MacOS(event::MacOS::ReceivedUrl(
+            //             url,
+            //         )),
+            //     ));
+            // }
             event::Event::UserEvent(message) => {
                 messages.push(message);
             }
@@ -489,22 +492,22 @@ async fn run_instance<A, E, C>(
 /// exit.
 pub fn requests_exit(
     event: &winit::event::WindowEvent<'_>,
-    _modifiers: winit::event::ModifiersState,
+    _modifiers: winit::keyboard::ModifiersState,
 ) -> bool {
     use winit::event::WindowEvent;
 
     match event {
         WindowEvent::CloseRequested => true,
-        #[cfg(target_os = "macos")]
-        WindowEvent::KeyboardInput {
-            input:
-                winit::event::KeyboardInput {
-                    virtual_keycode: Some(winit::event::VirtualKeyCode::Q),
-                    state: winit::event::ElementState::Pressed,
-                    ..
-                },
-            ..
-        } if _modifiers.logo() => true,
+        // #[cfg(target_os = "macos")]
+        // WindowEvent::KeyboardInput {
+        //     input:
+        //         winit::event::KeyboardInput {
+        //             virtual_keycode: Some(winit::event::VirtualKeyCode::Q),
+        //             state: winit::event::ElementState::Pressed,
+        //             ..
+        //         },
+        //     ..
+        // } if _modifiers.super_key() => true,
         _ => false,
     }
 }
@@ -635,7 +638,7 @@ pub fn run_command<A, E>(
                     ));
                 }
                 window::Action::FetchMode(tag) => {
-                    let mode = if window.is_visible().unwrap_or(true) {
+                    let mode = if window.is_visible() {
                         conversion::mode(window.fullscreen())
                     } else {
                         window::Mode::Hidden

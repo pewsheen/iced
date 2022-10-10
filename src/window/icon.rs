@@ -96,7 +96,7 @@ impl From<iced_winit::winit::window::BadIcon> for Error {
         use iced_winit::winit::window::BadIcon;
 
         match error {
-            BadIcon::ByteCountNotDivisibleBy4 { byte_count } => {
+            BadIcon::ByteCountNotDivisibleBy4 { byte_count, .. } => {
                 Error::InvalidData { byte_count }
             }
             BadIcon::DimensionsVsPixelCount {
@@ -110,6 +110,7 @@ impl From<iced_winit::winit::window::BadIcon> for Error {
                 pixel_count,
             },
             BadIcon::OsError(os_error) => Error::OsError(os_error),
+            _ => todo!()
         }
     }
 }

@@ -17,7 +17,7 @@ where
     viewport: Viewport,
     viewport_version: usize,
     cursor_position: winit::dpi::PhysicalPosition<f64>,
-    modifiers: winit::event::ModifiersState,
+    modifiers: winit::keyboard::ModifiersState,
     theme: <A::Renderer as crate::Renderer>::Theme,
     appearance: application::Appearance,
     application: PhantomData<A>,
@@ -50,7 +50,7 @@ where
             viewport_version: 0,
             // TODO: Encode cursor availability in the type-system
             cursor_position: winit::dpi::PhysicalPosition::new(-1.0, -1.0),
-            modifiers: winit::event::ModifiersState::default(),
+            modifiers: winit::keyboard::ModifiersState::default(),
             theme,
             appearance,
             application: PhantomData,
@@ -93,7 +93,7 @@ where
     }
 
     /// Returns the current keyboard modifiers of the [`State`].
-    pub fn modifiers(&self) -> winit::event::ModifiersState {
+    pub fn modifiers(&self) -> winit::keyboard::ModifiersState {
         self.modifiers
     }
 
@@ -159,16 +159,16 @@ where
             WindowEvent::ModifiersChanged(new_modifiers) => {
                 self.modifiers = *new_modifiers;
             }
-            #[cfg(feature = "debug")]
-            WindowEvent::KeyboardInput {
-                input:
-                    winit::event::KeyboardInput {
-                        virtual_keycode: Some(winit::event::VirtualKeyCode::F12),
-                        state: winit::event::ElementState::Pressed,
-                        ..
-                    },
-                ..
-            } => _debug.toggle(),
+            // #[cfg(feature = "debug")]
+            // WindowEvent::KeyboardInput {
+            //     input:
+            //         winit::event::KeyboardInput {
+            //             virtual_keycode: Some(winit::event::VirtualKeyCode::F12),
+            //             state: winit::event::ElementState::Pressed,
+            //             ..
+            //         },
+            //     ..
+            // } => _debug.toggle(),
             _ => {}
         }
     }
