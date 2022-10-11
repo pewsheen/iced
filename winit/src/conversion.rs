@@ -62,6 +62,7 @@ pub fn window_event(
                 _ => mouse::Event::ButtonPressed(button)
             }))
         }
+        // FIXME: add Mouse event back
         // WindowEvent::MouseWheel { delta, .. } => match delta {
         //     winit::event::MouseScrollDelta::LineDelta(delta_x, delta_y) => {
         //         Some(Event::Mouse(mouse::Event::WheelScrolled {
@@ -325,6 +326,7 @@ pub fn touch_event(
 // ) -> keyboard::KeyCode {
 //     use keyboard::KeyCode;
 
+// FIXME: add virtual_keycode back, or we should use scancode instead
 //     match virtual_keycode {
 //         winit::event::VirtualKeyCode::Key1 => KeyCode::Key1,
 //         winit::event::VirtualKeyCode::Key2 => KeyCode::Key2,

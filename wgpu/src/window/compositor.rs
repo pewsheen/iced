@@ -167,6 +167,8 @@ impl<Theme> iced_graphics::window::Compositor for Compositor<Theme> {
                 present_mode: self.settings.present_mode,
                 width,
                 height,
+                 // FIXME: add default alpha_mode, I didn't check which should be default value
+                 // so I just use Opaque here
                 alpha_mode: CompositeAlphaMode::Opaque,
             },
         );

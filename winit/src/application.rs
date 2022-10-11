@@ -191,6 +191,7 @@ where
         }
 
         let event = match event {
+            // FIXME: add this WindowEvent back
             // winit::event::Event::WindowEvent {
             //     event:
             //         winit::event::WindowEvent::ScaleFactorChanged {

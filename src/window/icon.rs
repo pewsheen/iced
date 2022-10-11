@@ -110,7 +110,7 @@ impl From<iced_winit::winit::window::BadIcon> for Error {
                 pixel_count,
             },
             BadIcon::OsError(os_error) => Error::OsError(os_error),
-            _ => todo!()
+            _ => todo!() // FIXME: add default Error
         }
     }
 }

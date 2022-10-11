@@ -159,6 +159,7 @@ where
             WindowEvent::ModifiersChanged(new_modifiers) => {
                 self.modifiers = *new_modifiers;
             }
+            // FIXME: add this back when winit/src/conversion.rs add keycode back
             // #[cfg(feature = "debug")]
             // WindowEvent::KeyboardInput {
             //     input:
